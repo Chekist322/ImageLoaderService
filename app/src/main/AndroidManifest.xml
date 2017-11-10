@@ -10,6 +10,7 @@
 
 
     <application
+        android:permission="com.example.batrakov.imageloaderservice.permission.LOAD_IMAGE"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -17,11 +18,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <service android:name=".ImageTaskService"
-            android:exported="false"
-            android:permission="@string/permission">
-            <intent-filter>
-                <action android:name="com.example.batrakov.imageloaderservice.ACTION"/>
-            </intent-filter>
+            android:exported="true">
         </service>
     </application>
 
