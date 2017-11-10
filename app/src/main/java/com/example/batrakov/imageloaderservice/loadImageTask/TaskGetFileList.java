@@ -19,6 +19,11 @@ public class TaskGetFileList extends Task {
 
     private Messenger mCallback;
 
+    /**
+     * Constructor.
+     *
+     * @param aCallback callback to calling app.
+     */
     public TaskGetFileList(Messenger aCallback) {
         mCallback = aCallback;
     }
@@ -39,7 +44,7 @@ public class TaskGetFileList extends Task {
 
             msg.setData(bundle);
         } else {
-          msg.setData(null);
+            msg.setData(null);
         }
 
         try {
