@@ -16,6 +16,7 @@ import java.util.ArrayList;
 public class TaskGetFileList extends Task {
 
     private static final String FILES_PATH_LIST = "file path list";
+    private static final String FILES_NAME_LIST = "file name list";
 
     private Messenger mCallback;
 
@@ -35,12 +36,15 @@ public class TaskGetFileList extends Task {
         if (sImagesDirectory.listFiles() != null) {
             File[] listFiles = sImagesDirectory.listFiles();
             final ArrayList<String> filesPathList = new ArrayList<>();
+            final ArrayList<String> filesNameList = new ArrayList<>();
             for (File file : listFiles) {
                 filesPathList.add(file.getPath());
+                filesNameList.add(file.getName());
             }
 
             Bundle bundle = new Bundle();
             bundle.putStringArrayList(FILES_PATH_LIST, filesPathList);
+            bundle.putStringArrayList(FILES_NAME_LIST, filesNameList);
 
             msg.setData(bundle);
         } else {
