@@ -19,6 +19,9 @@
         android:theme="@style/AppTheme">
         <service android:name=".ImageTaskService"
             android:exported="true">
+            <intent-filter>
+                <action android:name="com.example.batrakov.imageloaderservice.ACTION"/>
+            </intent-filter>
         </service>
     </application>
 

@@ -16,9 +16,9 @@ abstract class BitmapUtils {
     static int calculateInSampleSize(BitmapFactory.Options aOptions, int aReqWidth) {
         final int width = aOptions.outWidth;
         int inSampleSize = 1;
-
-        if (width > aReqWidth) {
-            while ((width / inSampleSize) >= aReqWidth) {
+        int halfWidth = width/2;
+        if (halfWidth > aReqWidth) {
+            while ((halfWidth / inSampleSize) >= aReqWidth) {
                 inSampleSize *= 2;
             }
         }
