@@ -12,6 +12,7 @@ import android.util.Log;
 
 import com.example.batrakov.imageloaderservice.loadImageTask.ImageLoaderTask;
 import com.example.batrakov.imageloaderservice.loadImageTask.Task;
+import com.example.batrakov.imageloaderservice.loadImageTask.TaskGetFileList;
 import com.example.batrakov.imageloaderservice.loadImageTask.TaskManager;
 import com.example.batrakov.imageloaderservice.loadImageTask.ThumbnailTask;
 
@@ -26,6 +27,7 @@ public class ImageTaskService extends Service {
     private static final String TARGET_MSG = "target msg";
     private static final int MSG_ADD_THUMBNAIL_TASK = 0;
     private static final int MSG_ADD_BIG_TASK = 1;
+    private static final int MSG_REQUEST_FILE_LIST = 2;
     private static final String TAG = ImageTaskService.class.getSimpleName();
     private final Messenger mMessenger = new Messenger(new IncomingHandler(this));
 
@@ -50,11 +52,15 @@ public class ImageTaskService extends Service {
                                 (Messenger) msg.getData().getParcelable(TARGET_MSG), msg.arg1, msg.arg2));
                     }
                     break;
-
                 case MSG_ADD_BIG_TASK:
                     if (mReference.get() != null && msgData != null) {
                         mReference.get().addTask(new ImageLoaderTask(msgData.getString(IMAGE_PATH),
                                 (Messenger) msg.getData().getParcelable(TARGET_MSG)));
+                    }
+                    break;
+                case MSG_REQUEST_FILE_LIST:
+                    if (mReference.get() != null && msgData != null) {
+                        mReference.get().addTask(new TaskGetFileList((Messenger) msgData.getParcelable(TARGET_MSG)));
                     }
                     break;
                 default:
@@ -83,6 +89,8 @@ public class ImageTaskService extends Service {
     public void addTask(Task aTask) {
         mTaskManager.addTask(aTask);
     }
+
+
 
     @Override
     public void onDestroy() {
