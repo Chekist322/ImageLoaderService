@@ -53,7 +53,6 @@ public class ImageTaskService extends Service {
                     break;
 
                 case MSG_ADD_BIG_TASK:
-                    System.out.println("kek");
                     if (mReference.get() != null && msgData != null) {
                         mReference.get().addTask(new ImageLoaderTask(msgData.getString(IMAGE_PATH),
                                 (Messenger) msg.getData().getParcelable(TARGET_MSG)));
