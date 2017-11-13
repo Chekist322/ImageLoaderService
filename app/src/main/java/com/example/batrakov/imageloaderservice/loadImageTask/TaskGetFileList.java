@@ -1,14 +1,12 @@
 package com.example.batrakov.imageloaderservice.loadImageTask;
 
-import android.os.Bundle;
 import android.os.Environment;
-import android.os.Message;
-import android.os.Messenger;
 import android.os.RemoteException;
-import android.util.Log;
 
 import java.io.File;
 import java.util.ArrayList;
+
+import com.example.batrakov.threadtask.IServiceCallback;
 
 /**
  * Task for getting list of files name from service.
@@ -16,49 +14,45 @@ import java.util.ArrayList;
 
 public class TaskGetFileList extends Task {
 
-    private static final String FILES_PATH_LIST = "file path list";
-    private static final String FILES_NAME_LIST = "file name list";
-    private static final String TAG = Task.class.getSimpleName();
-
-    private Messenger mCallback;
+    private IServiceCallback mCallback;
 
     /**
      * Constructor.
      *
-     * @param aCallback callback to calling app.
+     * @param aCallback callback to main app.
      */
-    public TaskGetFileList(Messenger aCallback) {
+    public TaskGetFileList(IServiceCallback aCallback) {
         mCallback = aCallback;
     }
 
     @Override
     public void process() {
         File sImagesDirectory = new File(Environment.getExternalStorageDirectory() + "/images");
-        Message msg = Message.obtain();
+
+        ArrayList<String> filesNameList = new ArrayList<>();
+        ArrayList<String> filesPathList = new ArrayList<>();
+
         if (sImagesDirectory.listFiles() != null) {
             File[] listFiles = sImagesDirectory.listFiles();
-            final ArrayList<String> filesPathList = new ArrayList<>();
-            final ArrayList<String> filesNameList = new ArrayList<>();
             for (File file : listFiles) {
                 filesPathList.add(file.getPath());
                 filesNameList.add(file.getName());
             }
 
-            Bundle bundle = new Bundle();
-            bundle.putStringArrayList(FILES_PATH_LIST, filesPathList);
-            bundle.putStringArrayList(FILES_NAME_LIST, filesNameList);
-
-            msg.setData(bundle);
+            if (!Thread.currentThread().isInterrupted()) {
+                try {
+                    mCallback.listsLoaded(filesPathList, filesNameList);
+                } catch (RemoteException aE) {
+                    aE.printStackTrace();
+                }
+            }
         } else {
-            msg.setData(null);
-        }
-        if (!Thread.currentThread().isInterrupted()) {
             try {
-                mCallback.send(msg);
-                Log.i(TAG, "process: ");
+                mCallback.listsLoaded(null, null);
             } catch (RemoteException aE) {
                 aE.printStackTrace();
             }
         }
+
     }
 }

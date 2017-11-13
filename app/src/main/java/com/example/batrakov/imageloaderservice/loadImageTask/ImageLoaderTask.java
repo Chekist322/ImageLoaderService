@@ -1,18 +1,17 @@
 package com.example.batrakov.imageloaderservice.loadImageTask;
 
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.Bundle;
-import android.os.Message;
-import android.os.Messenger;
 import android.os.RemoteException;
+
+import com.example.batrakov.threadtask.IServiceCallback;
 
 /**
  * Describe task to load image in it base configuration.
  */
 public class ImageLoaderTask extends Task {
 
-    private static final String IMAGE = "image";
-    private final Messenger mCallback;
+    private final IServiceCallback mCallback;
     private final String mImagePath;
 
     /**
@@ -21,22 +20,20 @@ public class ImageLoaderTask extends Task {
      * @param aImagePath       path to image from external storage.
      * @param aCallbackMessage callback to parent.
      */
-    public ImageLoaderTask(String aImagePath, Messenger aCallbackMessage) {
+    public ImageLoaderTask(String aImagePath, IServiceCallback aCallbackMessage) {
         mCallback = aCallbackMessage;
         mImagePath = aImagePath;
     }
 
     @Override
     public void process() {
-        Bundle bundle = new Bundle();
-        bundle.putParcelable(IMAGE, BitmapFactory.decodeFile(mImagePath));
-
-        Message msg = Message.obtain();
-        msg.setData(bundle);
-        try {
-            mCallback.send(msg);
-        } catch (RemoteException aE) {
-            aE.printStackTrace();
+        Bitmap bitmap = BitmapFactory.decodeFile(mImagePath);
+        if (!Thread.currentThread().isInterrupted()) {
+            try {
+                mCallback.bitmapLoaded(mImagePath, bitmap);
+            } catch (RemoteException aE) {
+                aE.printStackTrace();
+            }
         }
     }
 }
