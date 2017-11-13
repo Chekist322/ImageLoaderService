@@ -1,37 +1,26 @@
-// AidlServiceListenerInterface.aidl
+// ServiceAidlInteface.aidl
 package com.example.batrakov.threadtask;
 
 // Declare any non-default types here with import statements
 
-import com.example.batrakov.threadtask.IServiceCallback;
-
 /**
-*   Allow to send requests to bound service.
+*   Provide callback from Service to main app.
 */
-interface IServiceRequest {
+interface IServiceCallback {
 
     /**
-    *   Add new task to load thumbnail to queue.
+    *   Send message bitmap was loaded.
     *
-    *   @param aPath path to target image.
-    *   @param aCallback allow to get result from service.
-    *   @param aDensity target thumbnail density.
-    *   @param aWidth target thumbnail width.
+    *   @param aPath contain path to loaded image.
+    *   @param aBitmap loaded image.
     */
-    oneway void addThumbnailTask(String aPath, IServiceCallback aCallback, int aDensity, int aWidth);
+    oneway void bitmapLoaded(in String aPath, in Bitmap aBitmap);
 
     /**
-    *   Add new task to load image to queue.
+    *   Send message Lists were leaded.
     *
-    *   @param aPath path to target image.
-    *   @param aCallback allow to get result from service.
+    *   @param aPathList contains paths to images.
+    *   @param aNameList contains images's names.
     */
-    oneway void addBigTask(String aPath, IServiceCallback aCallback);
-
-    /**
-    *   Add new task to load list of images to queue.
-    *
-    *   @param aCallback allow to get result from service.
-    */
-    oneway void addListTask(in IServiceCallback aCallback);
+    oneway void listsLoaded(in List<String> aPathList, in List<String> aNameList);
 }
