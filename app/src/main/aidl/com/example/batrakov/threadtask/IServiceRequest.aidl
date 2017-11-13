@@ -23,10 +23,10 @@ interface IServiceRequest {
     /**
     *   Add new task to load image to queue.
     *
-    *   @param aName path to target image.
+    *   @param aPath path to target image.
     *   @param aCallback allow to get result from service.
     */
-    oneway void addBigTask(String aName, IServiceCallback aCallback);
+    oneway void addBigTask(String aPath, IServiceCallback aCallback);
 
     /**
     *   Add new task to load list of images to queue.

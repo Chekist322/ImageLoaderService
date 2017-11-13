@@ -18,12 +18,12 @@ public class ImageLoaderTask extends Task {
     /**
      * Constructor.
      *
-     * @param aImageName       path to image from external storage.
+     * @param aImagePath       path to image from external storage.
      * @param aCallbackMessage callback to parent.
      */
-    public ImageLoaderTask(String aImageName, IServiceCallback aCallbackMessage) {
+    public ImageLoaderTask(String aImagePath, IServiceCallback aCallbackMessage) {
         mCallback = aCallbackMessage;
-        mImagePath = ImageTaskService.PATH_TO_IMAGES + aImageName;
+        mImagePath = aImagePath;
     }
 
     @Override
