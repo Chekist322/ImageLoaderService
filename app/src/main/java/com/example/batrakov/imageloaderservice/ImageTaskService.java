@@ -90,9 +90,21 @@ public class ImageTaskService extends Service {
         mTaskManager.addTask(aTask);
     }
 
+    @Override
+    public void onTaskRemoved(Intent rootIntent) {
+        Log.i(TAG, "onTaskRemoved: ");
+        super.onTaskRemoved(rootIntent);
+    }
+
+    @Override
+    public boolean onUnbind(Intent intent) {
+        Log.i(TAG, "onUnbind: ");
+        return super.onUnbind(intent);
+    }
 
     @Override
     public void onDestroy() {
+        Log.i(TAG, "onDestroy: ");
         super.onDestroy();
         mTaskManager.clear();
     }
