@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.RemoteException;
 
+import com.example.batrakov.imageloaderservice.ImageTaskService;
 import com.example.batrakov.threadtask.IServiceCallback;
 
 /**
@@ -17,12 +18,12 @@ public class ImageLoaderTask extends Task {
     /**
      * Constructor.
      *
-     * @param aImagePath       path to image from external storage.
+     * @param aImageName       path to image from external storage.
      * @param aCallbackMessage callback to parent.
      */
-    public ImageLoaderTask(String aImagePath, IServiceCallback aCallbackMessage) {
+    public ImageLoaderTask(String aImageName, IServiceCallback aCallbackMessage) {
         mCallback = aCallbackMessage;
-        mImagePath = aImagePath;
+        mImagePath = ImageTaskService.PATH_TO_IMAGES + aImageName;
     }
 
     @Override

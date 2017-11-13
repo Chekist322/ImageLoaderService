@@ -26,13 +26,15 @@ public class ImageTaskService extends Service {
 
     private final TaskManager mTaskManager = new TaskManager(AMOUNT_OF_THREADS);
 
+    public static final String PATH_TO_IMAGES = "/storage/emulated/0/images/";
+
     private final IServiceRequest.Stub mCallbackInterface = new IServiceRequest.Stub() {
 
 
         @Override
-        public void addThumbnailTask(String aPath, IServiceCallback aCallback,
+        public void addThumbnailTask(String aName, IServiceCallback aCallback,
                                      int aDensity, int aWidth) throws RemoteException {
-            mTaskManager.addTask(new ThumbnailTask(aPath, aCallback, aDensity, aWidth));
+            mTaskManager.addTask(new ThumbnailTask(aName, aCallback, aDensity, aWidth));
         }
 
         @Override

@@ -28,27 +28,25 @@ public class TaskGetFileList extends Task {
     @Override
     public void process() {
         File sImagesDirectory = new File(Environment.getExternalStorageDirectory() + "/images");
-
+        System.out.println(sImagesDirectory);
         ArrayList<String> filesNameList = new ArrayList<>();
-        ArrayList<String> filesPathList = new ArrayList<>();
 
         if (sImagesDirectory.listFiles() != null) {
             File[] listFiles = sImagesDirectory.listFiles();
             for (File file : listFiles) {
-                filesPathList.add(file.getPath());
                 filesNameList.add(file.getName());
             }
 
             if (!Thread.currentThread().isInterrupted()) {
                 try {
-                    mCallback.listsLoaded(filesPathList, filesNameList);
+                    mCallback.listsLoaded(filesNameList);
                 } catch (RemoteException aE) {
                     aE.printStackTrace();
                 }
             }
         } else {
             try {
-                mCallback.listsLoaded(null, null);
+                mCallback.listsLoaded( null);
             } catch (RemoteException aE) {
                 aE.printStackTrace();
             }
